@@ -16,13 +16,15 @@
             var ctx = c.getContext("2d");
             
             var ring;
-            var xMan = 500, yMan = 850, xAcc = 0, yAcc = -0.5;
+            var xMan = 500, yMan = 850, xAcc = 0, yAcc = -2;
             var key;
             var play = 0, enter = 0, sluta = 0, stop = 0;
             var W, A, S, D;
             var WASD = 1;
             var tutorial = 1, point = 0;
             var color = "black";
+            
+            var timervar = 0;
             
             // Poäng variabler
             var life = 3;
@@ -36,30 +38,20 @@
             // Point: Är point = 1 så startar poäng tutorialen.
             // WASD: är WASD = 1 och W, A, S och D = 1 startar wall tutorialen.
             
-            function pointTimer1() {
-                color = "white";
-                tutorialPoint(color);
-                setTimeout(function() { pointTimer2(); }, 1000);
-                
-            }
-            function pointTimer2() {
-                color = "black";
-                tutorialPoint(color);
-                setTimeout(function() { pointTimer1(); }, 1000);
+            function tutorialPoint(x) {
+                ctx.fillStyle = x;
+                ctx.beginPath();
+                ctx.arc(300, 150, 10, 0, 2*Math.PI);
+                ctx.fill();
+                ctx.closePath();
             }
             
             function PacMan(x, y) {
                 ctx.beginPath();
                 ctx.arc(x, y, 20, 0, 2*Math.PI);
-                ctx.closePath();
+                ctx.fillStyle = "black";
                 ctx.fill();
-            }
-            function tutorialPoint(x) {
-                ctx.fillStyle = x;
-                ctx.beginPath();
-                ctx.arc(300, 150, 10, 0, 2*Math.PI);
                 ctx.closePath();
-                ctx.fill();
             }
             function tutorialWall() {
                 ctx.beginPath();
@@ -71,19 +63,19 @@
                 key = event.keyCode;
                 if(key == 87 && play == 1) { // W
                     xAcc = 0;
-                    yAcc = -1;
+                    yAcc = -4;
                     W = 1;
                 } else if(key == 83 & play == 1) { // S
                     xAcc = 0;
-                    yAcc = 1;
+                    yAcc = 4;
                     S = 1;
                 } else if(key == 65 && play == 1) { // A
                     yAcc = 0;
-                    xAcc = -1;
+                    xAcc = -4;
                     A = 1;
                 } else if(key == 68 && play == 1) { // D
                     yAcc = 0;
-                    xAcc = 1;
+                    xAcc = 4;
                     D = 1;
                 } else if(key == 13 && enter == 1) { // Enter
                     enter = 0;
@@ -102,14 +94,27 @@
             
             function repaint() {
                 ctx.clearRect(0, 0, 1000, 1000);
+                
+                if(point == 1) {
+                    timervar = timervar + 20;
+                    if(timervar < 1000) {
+                        color = "black";
+                        tutorialPoint(color);
+                    } else if(timervar > 1000 && timervar < 1500) {
+                        color = "gold";
+                        tutorialPoint(color);
+                    } else if(timervar > 1500) {
+                        timervar = 0;
+                    }
+                }
+                
+                
                 yMan = yMan + yAcc;
                 xMan = xMan + xAcc;
                 PacMan(xMan, yMan);
                 // Tutorial saker
                 if(tutorial == 0) {
                     tutorialWall();
-                } else if(point == 1) {
-                    tutorialPoint();
                 }
                 
                 // När man pausar/stänger av.
@@ -152,12 +157,10 @@
                         xMan = 500;
                         point = 1;
                         tutorial = 1;
-                        pointTimer1();
                     }
                 } 
             }
-        window.setInterval(repaint, 1);
-
+        window.setInterval(repaint, 20);
         </script>
     </body>
 </html>
