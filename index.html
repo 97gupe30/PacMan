@@ -21,7 +21,7 @@
             var play = 0, enter = 0, sluta = 0, stop = 0;
             var W, A, S, D;
             var WASD = 1;
-            var tutorial = 1, point = 0;
+            var tutorial = 1, point, pointtut;
             var color = "black";
             
             var timervar = 0;
@@ -33,10 +33,11 @@
             // play: När den är 0 kan man inte styra.
             // enter: Så man bara kan trycka på enter 1 gång.
             // sluta: Så tutorialen kommer upp bara en gång.
-            // stop: När den är 0 så stannar bollen.
+            // stop: När den är 1 så stannar bollen.
             // tutorial: Så WASD tutorial 2 bara kommer 1 gång.
-            // Point: Är point = 1 så startar poäng tutorialen.
+            // Point: Är point = 1 så börjar bollen blinka
             // WASD: är WASD = 1 och W, A, S och D = 1 startar wall tutorialen.
+            // Pointtut: När denna var = 1 så börjar point tutorialen
             
             function tutorialPoint(x) {
                 ctx.fillStyle = x;
@@ -95,6 +96,7 @@
             function repaint() {
                 ctx.clearRect(0, 0, 1000, 1000);
                 
+                // Detta gör så att poängen blinkar.
                 if(point == 1) {
                     timervar = timervar + 20;
                     if(timervar < 1000) {
@@ -140,6 +142,17 @@
                     WASD = 0;
                     // När du trycker på Enter så gör den key == 13 på keyHandler.
                 }
+                // Point tutorial
+                if(pointtut == 1) {
+                    document.getElementById('tutorial').innerHTML = "Collect points by runnning over the flashing dots. Press 'Enter' to continue.";
+                    play = 0;
+                    stop = 1;
+                }
+                if(key == 13 && pointtut == 1) {
+                    play = 1;
+                    stop = 0;
+                    document.getElementById('tutorial').innerHTML = "";
+                }
                 
                 
                 // Krock saker...
@@ -157,6 +170,7 @@
                         xMan = 500;
                         point = 1;
                         tutorial = 1;
+                        pointtut = 1;
                     }
                 } 
             }
