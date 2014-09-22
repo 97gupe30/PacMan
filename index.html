@@ -8,7 +8,7 @@
         <canvas height=700 width=1000 id="duk" style="cursor:none; border: 1px solid black;"></canvas>
         <div id="life"></div>
         <div id="tutorial" style="position: relative; top: -500px;"></div>
-        <div id="points" style="position: relative; top: -60px;"></div>
+        <div id="points" style="position: relative; left: -300px; top: -20px;"></div>
         </center>
         
         
@@ -218,6 +218,7 @@
                 var level = 1;
                 var timervar = 0;
                 var color;
+                var life = 3, point = 0;
                 
                 function PacMan(x, y) {
                     ctx.beginPath();
@@ -226,48 +227,14 @@
                     ctx.fill();
                     ctx.closePath();
                 }
-                function wall1(y) {
+                function wall(x, y, w, h) {
                     ctx.beginPath();
-                    ctx.rect(530, 1000, 30, y);
-                    ctx.fill();
-                    ctx.closePath();
-                }
-                function wall2(y) {
-                    ctx.beginPath();
-                    ctx.rect(440, 1000, 30, y);
+                    ctx.rect(x, y, w, h);
                     ctx.fillStyle = "black";
                     ctx.fill();
                     ctx.closePath();
                 }
-                function level2wall1() {
-                    ctx.beginPath();
-                    ctx.rect(530, 1000, 30, -600);
-                    ctx.fillStyle = "black";
-                    ctx.fill();
-                    ctx.closePath();
-                }
-                function level2wall2() {
-                    ctx.beginPath();
-                    ctx.rect(530, 0, 30, 300);
-                    ctx.fillStyle = "black";
-                    ctx.fill();
-                    ctx.closePath();
-                }
-                function level2wall3() {
-                    ctx.beginPath();
-                    ctx.rect(440, 1000, 30, -600);
-                    ctx.fillStyle = "black";
-                    ctx.fill();
-                    ctx.closePath();
-                }
-                function level2wall4() {
-                    ctx.beginPath();
-                    ctx.rect(440, 0, 30, 300);
-                    ctx.fillStyle = "black";
-                    ctx.fill();
-                    ctx.closePath();
-                }
-                function point(x, y, z) {
+                function pointblink(x, y, z) {
                     ctx.fillStyle = z;
                     ctx.beginPath();
                     ctx.arc(x, y, 10, 0, 2*Math.PI);
@@ -282,16 +249,19 @@
                     yMan = yMan + yAcc;
                     PacMan(xMan, yMan);
                     
-                    if(level == 1) {
-                    ywall1 = ywall1 - 5;
-                    wall1(ywall1);
-                    wall2(ywall1);
-                    
                     // När den ska stanna
                     if(play == 0) {
                         xAcc = 0;
                         yAcc = 0;
                     }
+                    
+                    document.getElementById('life').innerHTML = "Lifes: " + life;
+                    document.getElementById('points').innerHTML = "Points: " + point;
+                    
+                    if(level == 1) {
+                    ywall1 = ywall1 - 5;
+                    wall(530, 1000, 30, ywall1);
+                    wall(440, 1000, 30, ywall1);
                     
                     // När den kommer upp
                     if(xMan == 500 && yMan == 600) {
@@ -299,10 +269,21 @@
                     }
                     
                     // Krock skit
-                    if(xMan > 420 && xMan < 480) {
+                    if(xMan > 510 && xMan < 570 || xMan > 420 && xMan < 480) {
                         play = 0;
-                    } else if(xMan > 510 && xMan < 570) {
-                        play = 0;
+                        if(life > 1) {
+                            life--;
+                            xMan = 500;
+                            yMan = 600;
+                            play = 1;
+                            xAcc = 0;
+                            yAcc = 0;
+                        } else if(life == 1) {
+                            life--;
+                            xMan = 500;
+                            yMan = 600;
+                            alert("game over")
+                        }
                     } else if(yMan == -20) { // Level 1 done
                         yMan = 800;
                         level = 2;
@@ -312,18 +293,22 @@
                     timervar = timervar + 20;
                     if(timervar < 1000) {
                         color = "black";
-                        point(300, 300, color);
+                        pointblink(300, 300, color);
                     } else if(timervar > 1000 && timervar < 1500) {
                         color = "gold";
-                        point(300, 300, color);
+                        pointblink(300, 300, color);
                     } else if(timervar > 1500) {
                         timervar = 0;
                     }
                     
-                    level2wall1();
-                    level2wall2();
-                    level2wall3();
-                    level2wall4();
+                    wall(530, 1000, 30, -600);
+                    wall(440, 1000, 30, -600);
+                    wall(440, 0, 30, 300);
+                    wall(530, 0, 30, 300);
+                    wall(530, 400, 300, 30);
+                    wall(530, 300, 300, 30);
+                    wall(440, 400, -300, 30);
+                    wall(500, 300, -310, 30);
                     
                     
                     
