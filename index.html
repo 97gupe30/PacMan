@@ -285,7 +285,7 @@
                             alert("game over")
                         }
                     } else if(yMan == -20) { // Level 1 done
-                        yMan = 800;
+                        yMan = 700;
                         level = 2;
                     }
                     
@@ -293,26 +293,44 @@
                     timervar = timervar + 20;
                     if(timervar < 1000) {
                         color = "black";
-                        pointblink(300, 300, color);
+                        pointblink(300, 360, color);
                     } else if(timervar > 1000 && timervar < 1500) {
                         color = "gold";
-                        pointblink(300, 300, color);
+                        pointblink(300, 360, color);
                     } else if(timervar > 1500) {
                         timervar = 0;
                     }
-                    
+                    // Två nedersta
                     wall(530, 1000, 30, -600);
                     wall(440, 1000, 30, -600);
+                    // Två översta
                     wall(440, 0, 30, 300);
                     wall(530, 0, 30, 300);
+                    //
                     wall(530, 400, 300, 30);
                     wall(530, 300, 300, 30);
                     wall(440, 400, -300, 30);
-                    wall(500, 300, -310, 30);
+                    wall(470, 300, -330, 30);
+                    
+                    wall(530, 300, -80, 30);
+                    wall(140, 300, 30, 110);
+                    wall(800, 300, 30, 100);
+                    
+                    // Krock skit
+                    if(xMan > 510 && xMan < 570 && yMan < 1000 && yMan > 380) {
+                        alert("Hej");
+                    } else if(xMan > 420 && xMan < 490 && yMan < 1000 && yMan > 380) {
+                        alert("Hej");
+                    } else if(xMan > 420 && xMan < 490 && yMan > -20 && yMan < 340) {
+                        alert("Hej");
+                    } else if(xMan > 510 && xMan < 570 && yMan > -20 && yMan < 340) {
+                        alert("Hej");
+                    } else if(xMan > 510 && xMan < 870 && yMan > 380 && yMan < 450) {
+                        alert("TJEENA");
+                    }
                     
                     
-                    
-                    if(yMan == 800) {
+                    if(yMan == 700) {
                         level = 1;
                         yMan = -20;
                     }
