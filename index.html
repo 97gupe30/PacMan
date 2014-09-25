@@ -2,15 +2,18 @@
 <html>
     <head>
         <title>Pac Man</title>
+        
     </head>
     <body onkeydown="keyHandler(event)">
         <center>
-        <canvas height=700 width=1000 id="duk" style="cursor:none; border: 1px solid black;"></canvas>
-        <div id="life"></div>
-        <div id="tutorial" style="position: relative; top: -500px;"></div>
-        <div id="points" style="position: relative; left: -300px; top: -20px;"></div>
+            <canvas height=700 width=1000 id="duk" style="cursor:none; border: 1px solid black;"></canvas>
+            <div id="life"></div>
+            <div id="tutorial" style="position: relative; top: -500px;"></div>
+            <div id="points" style="position: relative; left: -300px; top: -20px;"></div>
+            <menu id="control">
+                <button onclick="button()"><h2>Tutorial</h2></button>
+            </menu>
         </center>
-        
         
         <script>
             var c = document.getElementById("duk");
@@ -42,6 +45,9 @@
                     stop = 0;
                     document.getElementById('tutorial').innerHTML = " ";
                 }
+            }
+            function button() {
+                tutorial = 1;
             }
             
             tutorial = prompt("Vill du köra tutorialen= Y/N?")
@@ -215,7 +221,7 @@
                 // Variabler
                 var play = 1;
                 var ywall1 = 0, ywall2 = 0;
-                var level = 3;
+                var level = 1;
                 var timervar = 0;
                 var color;
                 var life = 3, point = 0;
