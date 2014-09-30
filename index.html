@@ -27,7 +27,7 @@
                     xAcc = 0;
                     yAcc = -4;
                     W = 1;
-                } else if(key == 83 & play == 1) { // S
+                } else if(key == 83 && play == 1) { // S
                     xAcc = 0;
                     yAcc = 4;
                     S = 1;
@@ -221,11 +221,17 @@
                 // Variabler
                 var play = 1;
                 var ywall1 = 0, ywall2 = 0;
-                var level = 1;
+                var level = 3;
                 var timervar = 0;
                 var color;
                 var life = 3, point = 0;
-                var door = 1;
+                var door = 1; // ÄNDRA TBX TILL 1
+                var pointshow = 1; // OM DEN ÄR 1 så visas alla poäng.
+                
+                // LEVEL 3 VARIABLER
+                var moving = 100, moving1 = 1;
+                var door1 = 1; // ÄNDRA TBX TILL 1
+                var door2 = 1;
                 
                 function PacMan(x, y) {
                     ctx.beginPath();
@@ -250,10 +256,10 @@
                 }
                 function pointmaker(x, y) {
                     timervar = timervar + 20;
-                    if(timervar < 1000 && door == 1) {
+                    if(timervar < 1000) {
                         color = "black";
                         pointblink(x, y, color);
-                    } else if(timervar > 1000 && timervar < 1500 && door == 1) {
+                    } else if(timervar > 1000 && timervar < 1500) {
                         color = "gold";
                         pointblink(x, y, color);
                     } else if(timervar > 1500) {
@@ -405,15 +411,72 @@
                         wall(430, 400, 30, ywall2);
                     }
                     if(ywall1 < 5 && door == 1) {
-                        wall(530, 1000, 30, ywall2);
                         wall(430, 1000, 30, ywall2);
+                        if(ywall1 < 5 && door1 == 1) { // Dörr höger
+                            wall(530, 1000, 30, ywall2);
+                        } // Dörr höger slut
+                    } else if(door == 0) {
+                        if(ywall1 < 5 && door1 == 1) { // Dörr höger
+                            wall(530, 1000, 30, ywall2);
+                        } // Dörr höger slut
+                        wall(430, 370, -280, 30);
+                        wall(460, 470, -370, 30); 
+                        wall(60, 500, 30, -300);
+                        wall(150, 400, 30, -200);
+                        wall(60, 200, -100, 30);
+                        wall(0, 200, 30, -140);
+                        wall(0, 60, 250, 30);
+                        wall(250, 90, 30, -100);
+                        wall(180, 200, 180, 30);
+                        wall(360, 230, 30, -250);
+                        if(door2 == 1) {
+                            wall(270, -15, 100, 30);
+                            wall(430, 0, 100, 30);
+                        }
+                        if(door1 == 1) {
+                            pointmaker(200, 130);
+                        }
+                        if(moving > -1 && moving1 == 1) {
+                            moving-= 1.5;
+                            wall(150, 400, 30, moving); // moving wall
+                        } else if(moving == 100 ){
+                            wall(150, 400, 30, moving);
+                            moving1 = 1;
+                        } else {
+                            moving1 = 0;
+                            moving+= 1.5;
+                            wall(150, 400, 30, moving);
+                        }
+                        
+                        if(door1 == 0) { // Andra dörren
+                            wall(530, 370, 280, 30);
+                            wall(530, 470, 370, 30);
+                            wall(900, 500, 30, -300);
+                            wall(800, 400, 30, -200);
+                            wall(900, 200, 100, 30);
+                            wall(970, 200, 30, -140);
+                            wall(970, 60, -250, 30);
+                            wall(700, 90, 30, -100);
+                            wall(600, 230, 30, -250);
+                            wall(600, 200, 200, 30);
+                            if(door2 == 1) {
+                                wall(600, -15, 100, 30);
+                                pointmaker(800, 130);
+                            }
+                        }
                     }
-                    
-                    pointmaker(495, 50);
-                    
+                    if(pointshow == 1) {
+                        pointmaker(495, 50);
+                    }
+                        
                     // Poäng o krock saker..
                     if(xMan > 485 && xMan < 505 && yMan > 40 && yMan < 70) { // Poäng
                         door = 0;
+                        pointshow = 0;
+                    } else if(xMan > 190 && xMan < 210 && yMan > 120 && yMan < 150) { // Poäng 2
+                        door1 = 0;
+                    } else if(xMan > 790 && xMan < 810 && yMan > 120 && yMan < 150) {
+                        door2 = 0
                     }
                     
                 }
